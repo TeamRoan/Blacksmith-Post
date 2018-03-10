@@ -10,7 +10,7 @@ const cloudinary = require('cloudinary');
 
 var app = express();
 
-var stripe = require("stripe")(
+var stripe = require('stripe')(
   config.api
 );
 //to view data in body of api calls
@@ -48,23 +48,22 @@ require('./../config/passport.js')(passport);
 // });
 
 app.post('/charge', function(req, res) {
-    console.log(req.body.id);
-    stripe.charges.create({
-      amount: .09,
-      currency: "usd",
-      source: req.body.id,
-      description: "Charge for anon user"
-    }, function(err, charge) {
-      if(err){
-        console.error(err);
-        res.end()
-      } else {
-        console.log('Charged successfully')
-        res.writeHead(200);
-        res.end(charge);
-      }
+  console.log(req.body.id);
+  stripe.charges.create({
+    amount: .09,
+    currency: 'usd',
+    source: req.body.id,
+    description: 'Charge for anon user'
+  }, function(err, charge) {
+    if (err) {
+      console.error(err);
+      res.end();
+    } else {
+      console.log('Charged successfully');
+      res.writeHead(200);
+      res.end(charge);
     }
-  )
+  });
 });
 
 app.get('/signupS', function(req, res) {
@@ -105,17 +104,17 @@ app.get('/logout', function(req, res) {
 
 //request to view all items of type
 app.get('/api/items', function (req, res) {
- database.allItems(function (err, data){
-  if (err){
-    res.sendStatus(500 +"cant find item");
-  } else {
-    res.json(data)
-  }
- })
-})
+  database.allItems(function (err, data) {
+    if (err) {
+      res.sendStatus(500 +'cant find item');
+    } else {
+      res.json(data);
+    }
+  });
+});
 
 //request to add item to database
-app.post('/api/itemForm', function (req, res){
+app.post('/api/itemForm', function (req, res) {
   // console.log('in server');
   // let newItem = req.body;
   // let filename = req.body.image.split('\\')[2];
@@ -124,16 +123,20 @@ app.post('/api/itemForm', function (req, res){
   //   console.log(result);
   // })
   // console.log(req.body);
-  database.createItem(req.body);
-    res.sendStatus(200);
-
-})
+  database.createItem(req.body, (err, newItem) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(newItem);
+    }
+  });
+});
 
 //api call to delete a item not in use but works
-app.post('/api/deleteItem', function (req, res){
-  console.log(req.body.type +" req body delete")
+app.post('/api/deleteItem', function (req, res) {
+  console.log(req.body.type +" req body delete");
   database.deleteItem(req.body);
-  res.sendStatus(200);
 });
 
 app.post('/buy', function(req, res) {
