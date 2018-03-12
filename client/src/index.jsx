@@ -86,7 +86,6 @@ class App extends React.Component {
   }
 
   stripeTokenHandler(data) {
-    console.log('credit card success!');
     var user = this.state.currentUser
     $.ajax({
       url: '/charge',
@@ -120,7 +119,7 @@ class App extends React.Component {
     window.scrollTo(0, 0);
   }
 
-  sellItem(){ //redirect to login if not logged in when clicking sell
+  sellItem(){
      if (this.state.isLoggedIn) {
       this.setState({viewState:'ItemForm'});
      } else {
@@ -208,21 +207,4 @@ class App extends React.Component {
 };
 
 
-// set up header
-// set up footer
-//set up router
-//duplicate armor post
-//set up view many item page weapon / armor
-// set up single view item page weapon /armor
-//setup basic login page.
-
-//should all ajax requests be index page can they be on components?
-
-
-
-
-
 ReactDOM.render(<App/>, document.getElementById('app'));
-
-//routers
-//conditinal rendering ,

@@ -55,7 +55,6 @@ class LoginModal extends React.Component {
     console.log('in handleSubmit');
     var newUser = {username: this.state.email, password: hash};
     $.post('/login', newUser, (data) => {
-      console.log(data);
       if (data.message) {
         this.setState({errMsg: data.message[0]})
       } else {
@@ -69,7 +68,6 @@ class LoginModal extends React.Component {
 
   handleSignUpSubmit(e) {
     e.preventDefault();
-    console.log('in handleSubmit');
     let password = this.state.password;
     var salt = "$2a$10$yg5TlmPRWL2O2S6yR0Q6X."
     var hash = bcrypt.hashSync(password, salt)
@@ -101,7 +99,6 @@ class LoginModal extends React.Component {
   }
 
   afterOpenModal() {
-    // references are now sync'd and can be accessed.
     this.subtitle.style.color = '#f00';
   }
 
@@ -147,8 +144,8 @@ class LoginModal extends React.Component {
           ariaHideApp={false}
           contentLabel="Login Modal"
         >
-{this.state.signUpView === false &&
-<div>
+        {this.state.signUpView === false &&
+        <div>
           <h2 ref={subtitle => this.subtitle = subtitle}></h2>
           <button style={{marginLeft:"90%"}} className="btn btn-secondary" onClick={this.closeModal}>X</button>
           <div>

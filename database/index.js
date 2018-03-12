@@ -81,7 +81,6 @@ var item = module.exports = mongoose.model('item', itemSchema);
 
 //create a item listing
 var createItem = function (data, cb) {
-  console.log('create item func starting', data);
   new item({
     name: data.name || 'greatHelm',
     description: data.description || 'from the swamp of mordor',
@@ -172,13 +171,11 @@ var addFeedback = function(data, cb) {
 }
 
 var deleteItem = function(data) {
-  item.remove({name: data.name}).then(() =>
-    console.log(data.type + ' has been deleted database'));
+  item.remove({name: data.name})
 };
 
 //search for item by type
 var findItem = function(data, callback) {
-
   item.findOne({'name': data.name}).exec(callback);
 };
 
