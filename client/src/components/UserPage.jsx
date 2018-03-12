@@ -1,6 +1,8 @@
 import React from 'react';
 import $ from 'jquery';
 import ReactDOM from 'react-dom';
+import { Form, FormGroup, Label, Input, FormFeedback, FormText, Button, InputGroup, InputGroupAddon, Modal, ModalHeader, ModalBody, ModalFooter, Media } from 'reactstrap';
+
 
 class UserPage extends React.Component {
   constructor(props) {
@@ -13,11 +15,13 @@ class UserPage extends React.Component {
       thisUserFeedback: false,
       feedbackSent: false,
       myRating: '',
-      myFeedback: ''
+      myFeedback: '',
+      modal: false
     }
 
     this.submitFeedback = this.submitFeedback.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +46,12 @@ class UserPage extends React.Component {
     })
   }
 
+   toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -50,7 +60,8 @@ class UserPage extends React.Component {
 
   submitFeedback() {
     this.setState({
-      feedbackSent: true
+      feedbackSent: true,
+      modal: false
     });
     var feedback = {
       username: this.props.user,
@@ -66,6 +77,7 @@ class UserPage extends React.Component {
     $.post('/userFeedback', feedback, (data) => {
       console.log(data);
   })
+   
 };
 
   render() {
@@ -130,8 +142,22 @@ class UserPage extends React.Component {
                 <option value="4">4 Stars</option>
                 <option value="5">5 Stars</option>
               </select>
-              {!this.state.feedbackSent && <button className="btn btn-white" onClick={this.submitFeedback}>Submit Feedback</button>}
-              {this.state.feedbackSent && <button className="btn btn-white" disabled>Feedback Sent</button>}
+              {!this.state.feedbackSent && <Button className="btn btn-white" onClick={this.toggle}>Submit Feedback</Button>}
+              {this.state.feedbackSent && <Button className="btn btn-white" disabled>Feedback Sent</Button>}
+                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                        <ModalHeader toggle={this.toggle}>Confirmation</ModalHeader>
+                          <ModalBody>
+                            <div>
+                              <h5> Feedback for {this.props.user}</h5>
+                              <ul>Your Message: {this.state.myFeedback}</ul>
+                              <ul>Your Rating: {this.state.myRating}</ul>
+                            </div>
+                          </ModalBody>
+                        <ModalFooter>
+                          <Button color="primary" onClick={this.submitFeedback}>Submit Feedback</Button>{' '}
+                          <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                        </ModalFooter>
+                      </Modal>
               <form>
               </form>
             </div>
