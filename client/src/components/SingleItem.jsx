@@ -98,6 +98,7 @@ class SingleItem extends React.Component {
                 stripe={this.props.stripe} />}
               {this.state.showReceipt &&
               <Receipt
+                fetch={this.props.fetch}
                 modalIsOpen={this.state.showReceipt}
                 itemname={this.props.item.name}
                 price={this.props.item.cost}

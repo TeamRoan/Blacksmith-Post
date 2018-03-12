@@ -63,6 +63,7 @@ class ViewItems extends React.Component {
           {this.state.items.map((item) =>
 
           <SingleItem
+          fetch={this.props.fetch}
           userClick={this.props.userClick}
           login={this.props.login}
           isLoggedIn={this.props.isLoggedIn}

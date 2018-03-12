@@ -48,16 +48,18 @@ class App extends React.Component {
 
     fetch('/api/items')
     .then(response => response.json())
-    .then(data => this.setState({ items: data, isloading:false}));
+    .then(data => this.setState({ items: data, isLoading:false}));
   }
+
+
 
   fetch() {
     this.setState({
       isLoading: true,
-      viewState: 'LandingPage'});
+      viewState: 'ViewItems'});
     fetch('/api/items')
     .then(response => response.json())
-    .then(data => this.setState({ items: data, isloading:false}));
+    .then(data => this.setState({ items: data, isLoading:false}));
 
   }
 
@@ -80,7 +82,7 @@ class App extends React.Component {
     });
     fetch('/api/items')
       .then(response => response.json())
-      .then(data => this.setState({ items: data, isloading:false}));
+      .then(data => this.setState({ items: data, isLoading:false}));
   }
 
   stripeTokenHandler(data) {
@@ -193,7 +195,8 @@ class App extends React.Component {
           {this.state.viewState === 'MyPage' && <MyPage user={this.state.currentUser} />}
           {this.state.viewState === 'LandingPage' && <LandingPage buyclick={this.buyItem} sellclick={this.sellItem}/>}
           {this.state.viewState === 'ItemForm' && <ItemForm user={this.state.currentUser.local.username} fetch={this.fetch} />}
-          {this.state.viewState === 'ViewItems' && <ViewItems userClick={this.handleUserClick} login={this.login} isLoggedIn={this.state.isLoggedIn} itembought={this.itemBought} stripe={this.stripeTokenHandler} items={this.state.items} />}
+          {/* conditional rendering of buttons based on this.state.isLoggedIn */}
+          {this.state.viewState === 'ViewItems' && <ViewItems fetch={this.fetch} userClick={this.handleUserClick} login={this.login} isLoggedIn={this.state.isLoggedIn} itembought={this.itemBought} stripe={this.stripeTokenHandler} items={this.state.items} />}
           {this.state.isLoggedIn === false && <LoginModal setCurrentUser={this.handleNewSession} modalIsOpen={this.state.loginModalOpen} close={this.closeLogin} />}
           {this.state.viewState === 'upload' && <ImageUploader />}
           <Footer />

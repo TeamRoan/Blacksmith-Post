@@ -45,6 +45,7 @@ class Receipt extends React.Component {
     this.setState({
         modalisOpen: false
     });
+    this.props.fetch();
     this.props.close();
   }
 

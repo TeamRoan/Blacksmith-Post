@@ -143,26 +143,26 @@ app.get('/logout', function(req, res) {
 });
 
 app.post('/userFeedback', function(req, res) {
-  console.log(req.body);
-  let result;
   database.addFeedback(req.body, (data) => {
-    result = result + data
+    console.log(data)
   })
-  res.send(result);
 })
 
 app.get('/userFeedback', function(req, res) {
   database.getFeedback(req.query.username, (data) => {
     let ending = {};
-    if (data.feedback.length > 0) {
-      ending.feedback = data.feedback;
+    if (data) {
+
+      if (data.feedback.length > 0) {
+        ending.feedback = data.feedback;
+      }
+      if (data.rating.length > 0) {
+        ending.rating = data.rating
+      }
+      res.json(ending)
     }
-    if (data.rating.length > 0) {
-      ending.rating = data.rating
-    }
-    console.log('ENDDDDDDDDDDING', ending)
-    res.json(ending)
-  })
+    })
+
 })
 
 app.get('/userSells', function(req, res) {

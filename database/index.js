@@ -45,6 +45,9 @@ const userSchema = mongoose.Schema({
       message: String
     }
   ]
+},
+{
+  usePushEach: true
 });
 
 
@@ -140,14 +143,32 @@ var getFeedback = function(data, cb) {
 
 var addFeedback = function(data, cb) {
   if (data.rating.rating != '') {
-    User.findOneAndUpdate({'local.username': data.username}, {$push: {rating: data.rating}});
-    cb(data.username + ' updated with: ' + data.rating.rating)
+    User.findOne({'local.username': data.username}, function(err, info) {
+      if (err) {console.log('ERR in dbsave', err);}
+      info.rating.push(data.rating);
+      info.save(cb)
+
+      //   function(err) {
+      //   if (err) {console.log('ERR IN DBSAVE', err);}
+      // });
+      // console.log(info)
+      // cb('updated : ', info);
+    })
   }
   if (data.feedback.message != '') {
-    User.findOneAndUpdate({'local.username': data.username}, {$push: {feedback: data.feedback}});
-    cb(data.username + ' updated with: ' + data.feedback.message)
-  }
-};
+    User.findOne({'local.username': data.username}, function(err, info) {
+      if (err) {console.log('ERR in dbsave', err);}
+      info.feedback.push(data.feedback);
+      info.save(cb)
+
+      //   function(err) {
+      //   if(err){console.log('ERR IN DBSAVE', err);}
+      // });
+      // console.log(info)
+      // cb('updated : ', info);
+    })
+  };
+}
 
 var deleteItem = function(data) {
   item.remove({name: data.name})
