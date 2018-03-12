@@ -152,15 +152,17 @@ app.get('/userFeedback', function(req, res) {
   database.getFeedback(req.query.username, (data) => {
     let ending = {};
     if (data) {
-    if (data.feedback.length > 0) {
-      ending.feedback = data.feedback;
+
+      if (data.feedback.length > 0) {
+        ending.feedback = data.feedback;
+      }
+      if (data.rating.length > 0) {
+        ending.rating = data.rating
+      }
+      res.json(ending)
     }
-    if (data.rating.length > 0) {
-      ending.rating = data.rating
-    }
-    res.json(ending)
-  }
-})
+    })
+
 })
 
 app.get('/userSells', function(req, res) {
