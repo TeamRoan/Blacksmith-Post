@@ -152,6 +152,7 @@ app.get('/userFeedback', function(req, res) {
   database.getFeedback(req.query.username, (data) => {
     let ending = {};
     if (data) {
+
       if (data.feedback.length > 0) {
         ending.feedback = data.feedback;
       }
