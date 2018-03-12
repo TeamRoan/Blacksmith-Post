@@ -78,7 +78,6 @@ var item = module.exports = mongoose.model('item', itemSchema);
 
 //create a item listing
 var createItem = function (data, cb) {
-  console.log('create item func starting', data);
   new item({
     name: data.name || 'greatHelm',
     description: data.description || 'from the swamp of mordor',
@@ -140,7 +139,6 @@ var getFeedback = function(data, cb) {
 };
 
 var addFeedback = function(data, cb) {
-  console.log('DATAAAAAAAAAAA IN ADD', data);
   if (data.rating.rating != '') {
     User.findOneAndUpdate({'local.username': data.username}, {$push: {rating: data.rating}});
     cb(data.username + ' updated with: ' + data.rating.rating)
@@ -152,13 +150,11 @@ var addFeedback = function(data, cb) {
 };
 
 var deleteItem = function(data) {
-  item.remove({name: data.name}).then(() =>
-    console.log(data.type + ' has been deleted database'));
+  item.remove({name: data.name})
 };
 
 //search for item by type
 var findItem = function(data, callback) {
-
   item.findOne({'name': data.name}).exec(callback);
 };
 

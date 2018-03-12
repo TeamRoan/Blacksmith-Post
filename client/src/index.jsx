@@ -84,7 +84,6 @@ class App extends React.Component {
   }
 
   stripeTokenHandler(data) {
-    console.log('credit card success!');
     var user = this.state.currentUser
     $.ajax({
       url: '/charge',
@@ -118,7 +117,7 @@ class App extends React.Component {
     window.scrollTo(0, 0);
   }
 
-  sellItem(){ //redirect to login if not logged in when clicking sell
+  sellItem(){
      if (this.state.isLoggedIn) {
       this.setState({viewState:'ItemForm'});
      } else {
@@ -194,7 +193,6 @@ class App extends React.Component {
           {this.state.viewState === 'MyPage' && <MyPage user={this.state.currentUser} />}
           {this.state.viewState === 'LandingPage' && <LandingPage buyclick={this.buyItem} sellclick={this.sellItem}/>}
           {this.state.viewState === 'ItemForm' && <ItemForm user={this.state.currentUser.local.username} fetch={this.fetch} />}
-          {/* conditional rendering of buttons based on this.state.isLoggedIn */}
           {this.state.viewState === 'ViewItems' && <ViewItems userClick={this.handleUserClick} login={this.login} isLoggedIn={this.state.isLoggedIn} itembought={this.itemBought} stripe={this.stripeTokenHandler} items={this.state.items} />}
           {this.state.isLoggedIn === false && <LoginModal setCurrentUser={this.handleNewSession} modalIsOpen={this.state.loginModalOpen} close={this.closeLogin} />}
           {this.state.viewState === 'upload' && <ImageUploader />}
@@ -206,21 +204,4 @@ class App extends React.Component {
 };
 
 
-// set up header
-// set up footer
-//set up router
-//duplicate armor post
-//set up view many item page weapon / armor
-// set up single view item page weapon /armor
-//setup basic login page.
-
-//should all ajax requests be index page can they be on components?
-
-
-
-
-
 ReactDOM.render(<App/>, document.getElementById('app'));
-
-//routers
-//conditinal rendering ,

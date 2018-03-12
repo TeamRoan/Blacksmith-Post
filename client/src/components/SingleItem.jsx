@@ -68,9 +68,7 @@ class SingleItem extends React.Component {
 
   render() {
     return (
-  // {item.category === filter &&
       <div>
-        {/* {(this.props.filter === this.props.item.category || this.props.filter == ('Filter by Category')) && */}
         {filterFunc(this.props.filter, this.props.subfilter, this.props.item.category, this.props.item.subcategory) &&
           <div className="card text-center bg-secondary mb-3" style={{flex: 1, width: 375, height: 750}}>
             <div className="card-body">
